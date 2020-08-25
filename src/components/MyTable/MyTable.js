@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import Loading from '../Loading'
+import MyTableHeader from '../MyTableHeader'
 
 export default class MyTable extends Component{
     state={
         rowsData: [],
-        isLoading: false
+        isLoading: false,
+        sortItem: ""
     }
     async componentDidMount(){
         await this.setState({isLoading: true})
@@ -17,6 +19,87 @@ export default class MyTable extends Component{
         .catch(e => console.log(e))
         console.log(this.state.rowsData)
     }
+    tableSort = () => {
+        if(this.state.sortItem === "id"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.id > b.id ? 1 : -1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("f0")
+        } else if(this.state.sortItem === "firstName"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.firstName > b.firstName ? 1 : -1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("f1")
+        } else if(this.state.sortItem === "lastName"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.lastName > b.lastName ? 1 : -1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("f2")
+        } else if(this.state.sortItem === "email"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.email > b.email ? 1 : -1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("f3")
+        } else if(this.state.sortItem === "phone"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.phone > b.phone ? 1 : -1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("f4")
+        } 
+    }
+    tableSortBack = () => { 
+        if(this.state.sortItem === "id"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.id > b.id ? -1 : 1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("b0")
+        } else if(this.state.sortItem === "firstName"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.firstName > b.firstName ? -1 : 1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("b1")
+        } else if(this.state.sortItem === "lastName"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.lastName > b.lastName ? -1 : 1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("b2")
+        } else if(this.state.sortItem === "email"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.email > b.email ? -1 : 1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("b3")
+        } else if(this.state.sortItem === "phone"){
+            const sortedData = this.state.rowsData.sort((a,b) =>
+            a.phone > b.phone ? -1 : 1)
+            this.setState({
+                rowsData: sortedData
+            })
+            console.log("b4")
+        } 
+    }
+    itemLifter = (i) =>{
+        this.setState({
+            sortItem: i
+        })
+    }
     render(){       
         return(
         <>
@@ -25,11 +108,11 @@ export default class MyTable extends Component{
             : <table className="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>E-mail</th>
-                        <th>Phone</th>
+                        <MyTableHeader itemLifter={this.itemLifter} item='id' name='ID' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='firstName' name='First name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='lastName' name='Last name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='email' name='E-mail' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='phone' name='Phone' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
                     </tr>
                 </thead>
                 <tbody>

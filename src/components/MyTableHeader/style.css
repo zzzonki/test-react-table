@@ -1,0 +1,7 @@
+.faq_arrow{
+    display: block;
+    margin: auto 10px;
+}
+.faq_arrow__rt{
+    transform: rotate(180deg);
+}
