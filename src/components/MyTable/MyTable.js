@@ -95,7 +95,7 @@ export default class MyTable extends Component{
             console.log("b4")
         } 
     }
-    itemLifter = (i) =>{
+    itemLifter = i =>{
         this.setState({
             sortItem: i
         })
@@ -108,11 +108,11 @@ export default class MyTable extends Component{
             : <table className="table">
                 <thead>
                     <tr>
-                        <MyTableHeader itemLifter={this.itemLifter} item='id' name='ID' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='firstName' name='First name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='lastName' name='Last name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='email' name='E-mail' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='phone' name='Phone' tableSort={this.tableSort} tableSortBack={this.tableSortBack} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='id' name='ID' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='firstName' name='First name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='lastName' name='Last name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='email' name='E-mail' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
+                        <MyTableHeader itemLifter={this.itemLifter} item='phone' name='Phone' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
                     </tr>
                 </thead>
                 <tbody>
