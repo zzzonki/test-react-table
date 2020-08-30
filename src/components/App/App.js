@@ -1,17 +1,28 @@
 import React, {Component} from 'react';
 import MyTable from '../MyTable'
-// import Loading from '../Loading'
+import RowInfo from '../RowInfo'
 
 
 
 class App extends Component{
   state ={
-    // isLoading: true
+    rowToSee: null
   }
   render(){
     return(
-      <div><MyTable /></div>
+      <>
+        <MyTable rowSelect={this.rowSelect} />
+        <div ref={(el) => { this.messagesEnd = el; }}></div>
+        <div>{this.state.rowToSee ? <RowInfo rowToSee={this.state.rowToSee} /> : null}</div>
+      </>
     )
+  }
+
+  rowSelect = rowToSee => {
+    this.setState({rowToSee})
+    setTimeout(() => {
+      this.messagesEnd.scrollIntoView({ behavior: "smooth" })
+    }, 100);  
   }
 }
 

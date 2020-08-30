@@ -7,7 +7,7 @@ export default class MyTable extends Component{
     state={
         rowsData: [],
         isLoading: false,
-        sortItem: ""
+        sortField: null
     }
     async componentDidMount(){
         await this.setState({isLoading: true})
@@ -20,35 +20,35 @@ export default class MyTable extends Component{
         console.log(this.state.rowsData)
     }
     tableSort = () => {
-        if(this.state.sortItem === "id"){
+        if(this.state.sortField === "id"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.id > b.id ? 1 : -1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("f0")
-        } else if(this.state.sortItem === "firstName"){
+        } else if(this.state.sortField === "firstName"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.firstName > b.firstName ? 1 : -1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("f1")
-        } else if(this.state.sortItem === "lastName"){
+        } else if(this.state.sortField === "lastName"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.lastName > b.lastName ? 1 : -1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("f2")
-        } else if(this.state.sortItem === "email"){
+        } else if(this.state.sortField === "email"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.email > b.email ? 1 : -1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("f3")
-        } else if(this.state.sortItem === "phone"){
+        } else if(this.state.sortField === "phone"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.phone > b.phone ? 1 : -1)
             this.setState({
@@ -58,35 +58,35 @@ export default class MyTable extends Component{
         } 
     }
     tableSortBack = () => { 
-        if(this.state.sortItem === "id"){
+        if(this.state.sortField === "id"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.id > b.id ? -1 : 1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("b0")
-        } else if(this.state.sortItem === "firstName"){
+        } else if(this.state.sortField === "firstName"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.firstName > b.firstName ? -1 : 1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("b1")
-        } else if(this.state.sortItem === "lastName"){
+        } else if(this.state.sortField === "lastName"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.lastName > b.lastName ? -1 : 1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("b2")
-        } else if(this.state.sortItem === "email"){
+        } else if(this.state.sortField === "email"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.email > b.email ? -1 : 1)
             this.setState({
                 rowsData: sortedData
             })
             console.log("b3")
-        } else if(this.state.sortItem === "phone"){
+        } else if(this.state.sortField === "phone"){
             const sortedData = this.state.rowsData.sort((a,b) =>
             a.phone > b.phone ? -1 : 1)
             this.setState({
@@ -97,10 +97,11 @@ export default class MyTable extends Component{
     }
     itemLifter = i =>{
         this.setState({
-            sortItem: i
+            sortField: i
         })
     }
-    render(){       
+    render(){    
+        const {rowSelect} = this.props  
         return(
         <>
             {this.state.isLoading ?
@@ -108,16 +109,16 @@ export default class MyTable extends Component{
             : <table className="table">
                 <thead>
                     <tr>
-                        <MyTableHeader itemLifter={this.itemLifter} item='id' name='ID' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='firstName' name='First name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='lastName' name='Last name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='email' name='E-mail' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
-                        <MyTableHeader itemLifter={this.itemLifter} item='phone' name='Phone' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortItem={this.state.sortItem} />
+                        <MyTableHeader itemLifter={this.itemLifter} field='id' name='ID' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortField={this.state.sortField} />
+                        <MyTableHeader itemLifter={this.itemLifter} field='firstName' name='First name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortField={this.state.sortField} />
+                        <MyTableHeader itemLifter={this.itemLifter} field='lastName' name='Last name' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortField={this.state.sortField} />
+                        <MyTableHeader itemLifter={this.itemLifter} field='email' name='E-mail' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortField={this.state.sortField} />
+                        <MyTableHeader itemLifter={this.itemLifter} field='phone' name='Phone' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortField={this.state.sortField} />
                     </tr>
                 </thead>
                 <tbody>
                     {this.state.rowsData.map(item =>(
-                        <tr key={item.id + item.lastName}>
+                        <tr key={item.id + item.lastName} onClick={rowSelect.bind(null, item)}>
                             <td>{item.id}</td>
                             <td>{item.firstName}</td>
                             <td>{item.lastName}</td>

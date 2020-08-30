@@ -10,15 +10,15 @@ export default class MyTableHeader extends PureComponent{
         straightSort: false
     }
     render(){
-        const {name, item, sortItem} = this.props
-        const arrow = (item == sortItem) ?
+        const {name, field, sortField} = this.props
+        const arrow = (field === sortField) ?
         (this.state.straightSort ?
         <FontAwesomeIcon icon={faCaretDown} /> :
         <FontAwesomeIcon icon={faCaretUp} />) :
         ""
         return(
             <>
-            <th className="pointer" onClick={() => this.handleClick(item, sortItem)}>{name} {arrow}</th>
+            <th className="pointer" onClick={() => this.handleClick(field, sortField)}>{name} {arrow}</th>
             </>
         )
     }
@@ -42,8 +42,8 @@ export default class MyTableHeader extends PureComponent{
             
         }, 1);    
     }
-    componentShouldUpdate(){
-        if (this.props.sortItem == this.props.item){
+    componentDidUpdate(){
+        if (this.props.sortField !== this.props.field){
             this.setState({
                 straightSort: false
         })
