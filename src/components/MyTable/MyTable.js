@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import Loading from '../Loading'
 import MyTableHeader from '../MyTableHeader'
+import './style.css'
 
 export default class MyTable extends Component{
     state={
@@ -10,8 +11,9 @@ export default class MyTable extends Component{
         sortField: null
     }
     async componentDidMount(){
+        const {dataAmount} = this.props  
         await this.setState({isLoading: true})
-        await fetch(`http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}`)
+        await fetch(dataAmount)
         .then(response => response.json())
         .then(result => 
             this.setState({rowsData: result, isLoading: false})
@@ -101,7 +103,7 @@ export default class MyTable extends Component{
         })
     }
     render(){    
-        const {rowSelect} = this.props  
+        const {rowSelect} = this.props
         return(
         <>
             {this.state.isLoading ?
@@ -118,7 +120,7 @@ export default class MyTable extends Component{
                 </thead>
                 <tbody>
                     {this.state.rowsData.map(item =>(
-                        <tr key={item.id + item.lastName} onClick={rowSelect.bind(null, item)}>
+                        <tr key={item.id + item.lastName} onClick={rowSelect.bind(null, item)} className="pointer">
                             <td>{item.id}</td>
                             <td>{item.firstName}</td>
                             <td>{item.lastName}</td>
