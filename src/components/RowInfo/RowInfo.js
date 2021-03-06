@@ -7,9 +7,7 @@ export default function RowInfo({rowToSee}){
         <div className="rowInfo_inside {class}">
         <p>Выбран пользователь: <b>{rowToSee.firstName + " " + rowToSee.lastName}</b></p>
         <p>Описание:</p>
-        <textarea>
-        {rowToSee.description}
-        </textarea>
+        <textarea value={rowToSee.description} readOnly />
         <p>Адрес проживания: <b>{rowToSee.address.streetAddress}</b></p>
         <p>Город: <b>{rowToSee.address.city}</b></p>
         <p>Провинция/штат: <b>{rowToSee.address.state}</b></p>

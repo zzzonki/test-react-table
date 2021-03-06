@@ -3,6 +3,9 @@ import MyTable from '../MyTable'
 import RowInfo from '../RowInfo'
 import DataSelector from '../DataSelector'
 
+import 'bootstrap/dist/css/bootstrap.css'
+
+
 
 
 class App extends Component{
@@ -13,9 +16,17 @@ class App extends Component{
   }
   render(){
     const theApp = 
-    (<><MyTable rowSelect={this.rowSelect} dataAmount={this.state.dataAmount} />
-        <div ref={(el) => {this.messagesEnd = el}}></div>
-        <div>{this.state.rowToSee ? <RowInfo rowToSee={this.state.rowToSee} /> : null}</div></>)
+    (<>
+      <div className="container">
+        <div className="row">
+          <div className="col-9"></div>
+          <div className="col-"><button className="btn btn-success">Добавить</button></div>
+        </div>
+      </div>
+      <MyTable rowSelect={this.rowSelect} dataAmount={this.state.dataAmount} />
+      <div ref={(el) => {this.messagesEnd = el}}></div>
+      <div>{this.state.rowToSee ? <RowInfo rowToSee={this.state.rowToSee} /> : null}</div>
+    </>)
     const theMenu = <DataSelector dataLifter={this.dataLifter} />
     return(
       <>
@@ -24,8 +35,8 @@ class App extends Component{
     )
   }
 
-  rowSelect = rowToSee => {
-    this.setState({rowToSee})
+  rowSelect = item => {
+    this.setState({rowToSee: item})
     setTimeout(() => {
       this.messagesEnd.scrollIntoView({ behavior: "smooth" })
     }, 100);  
@@ -36,7 +47,6 @@ class App extends Component{
         dataAmount: data,
         dataSelected: true
       })
-      console.log()
   }
 
   // dataSelectHandler = url => {

@@ -2,25 +2,33 @@ import React, {Component} from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import Loading from '../Loading'
 import MyTableHeader from '../MyTableHeader'
+import Pages from '../Pages'
+import Search from '../Search'
 import './style.css'
 
 export default class MyTable extends Component{
     state={
+        allRowsData: [],
         rowsData: [],
         isLoading: false,
-        sortField: null
+        sortField: null,
+        currentPage: 1,
+        rowsPerPage: 50,
+        searchWord: ''
     }
+
     async componentDidMount(){
         const {dataAmount} = this.props  
         await this.setState({isLoading: true})
         await fetch(dataAmount)
         .then(response => response.json())
         .then(result => 
-            this.setState({rowsData: result, isLoading: false})
+            this.setState({allRowsData: result, isLoading: false, rowsData: result})
         )
         .catch(e => console.log(e))
-        console.log(this.state.rowsData)
+        console.log(this.state.allRowsData)
     }
+
     tableSort = () => {
         if(this.state.sortField === "id"){
             const sortedData = this.state.rowsData.sort((a,b) =>
@@ -59,6 +67,7 @@ export default class MyTable extends Component{
             console.log("f4")
         } 
     }
+
     tableSortBack = () => { 
         if(this.state.sortField === "id"){
             const sortedData = this.state.rowsData.sort((a,b) =>
@@ -97,18 +106,50 @@ export default class MyTable extends Component{
             console.log("b4")
         } 
     }
+
     itemLifter = i =>{
         this.setState({
             sortField: i
         })
     }
+
+    paginate = pageNumber =>{
+        this.setState({
+            currentPage: pageNumber
+        })
+    }
+
+    getSearch = i =>{
+        this.setState({
+            searchWord: i
+        })
+    }
+
+    findRows = (word) => {
+        const newData = this.state.allRowsData.filter(item => {
+          const regex = new RegExp(word, 'gi')
+          return item.id.toString().match(regex) || item.firstName.match(regex) || item.lastName.match(regex) || item.email.match(regex) || item.phone.match(regex)
+        })
+        this.setState({
+            rowsData: newData,
+            sortField: null
+        })
+      }
+
     render(){    
         const {rowSelect} = this.props
+
+        const lastRowIndex = this.state.currentPage * this.state.rowsPerPage
+        const firstRowIndex = lastRowIndex - this.state.rowsPerPage
+        const currentRows = this.state.rowsData.slice(firstRowIndex, lastRowIndex)
+
         return(
         <>
             {this.state.isLoading ?
             <Loading />
-            : <table className="table">
+            : <div>
+                <Search getSearch={this.getSearch} findRows={this.findRows} searchWord={this.state.searchWord} />
+                <table className="table">
                 <thead>
                     <tr>
                         <MyTableHeader itemLifter={this.itemLifter} field='id' name='ID' tableSort={this.tableSort} tableSortBack={this.tableSortBack} sortField={this.state.sortField} />
@@ -119,7 +160,7 @@ export default class MyTable extends Component{
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.rowsData.map(item =>(
+                    {currentRows.map(item =>(
                         <tr key={item.id + item.lastName} onClick={rowSelect.bind(null, item)} className="pointer">
                             <td>{item.id}</td>
                             <td>{item.firstName}</td>
@@ -130,6 +171,7 @@ export default class MyTable extends Component{
                     ))}
                 </tbody>
             </table>
+                <Pages paginate={this.paginate} rowsPerPage={this.state.rowsPerPage} totalRows={this.state.rowsData.length} currentPage={this.state.currentPage} /> </div>
             }
         </>
         )
