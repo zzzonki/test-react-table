@@ -4,6 +4,7 @@ import Loading from '../Loading'
 import MyTableHeader from '../MyTableHeader'
 import Pages from '../Pages'
 import Search from '../Search'
+import RowAdd from '../RowAdd'
 import './style.css'
 
 export default class MyTable extends Component{
@@ -136,6 +137,29 @@ export default class MyTable extends Component{
         })
       }
 
+      getRow = (firstName, lastName, email, phone, streetAddress, city, state, zip, description) =>{
+          const data = this.state.allRowsData
+          const addData = {}
+          addData.address = {}
+          addData.id = data.length + 2
+          addData.firstName = firstName
+          addData.lastName = lastName
+          addData.email = email
+          addData.phone = phone
+          addData.address.streetAddress = streetAddress
+          addData.address.city = city
+          addData.address.state = state
+          addData.address.zip = zip
+          addData.description = description
+          data.push(addData)
+          this.setState({
+              allRowsData: data
+          })
+          setTimeout(() => {
+              console.log(addData)
+          }, 1);
+      }
+
     render(){    
         const {rowSelect} = this.props
 
@@ -148,6 +172,7 @@ export default class MyTable extends Component{
             {this.state.isLoading ?
             <Loading />
             : <div>
+                <RowAdd getRow={this.getRow} />
                 <Search getSearch={this.getSearch} findRows={this.findRows} searchWord={this.state.searchWord} />
                 <table className="table">
                 <thead>
